@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1>{{ user_info.username }}'s user page</h1>
+  <h5> followers : {{user_info.followers.all | length}}</h5>
+  <h5> followings : {{user_info.followings.all | length}}</h5>
+  {% if user.is_authenticated and user != user_info %}
+    <a href="{% url 'account:follow' user_info.id %}">follow</a>
+  {% endif %}
+{% endblock%}
