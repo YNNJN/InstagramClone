@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
-  <h1>Index</h1>
+    <div class="row">
+    {% for post in posts %}
+
+        {% include 'posts/_post.html' %}
+
+    {% endfor %}
+    </div>
 {% endblock %}
