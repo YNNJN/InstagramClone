@@ -47,7 +47,7 @@ def follow(request, id):
     you = get_object_or_404(User, id=id)
     me = request.user
     if you == me:
-        return redirect('account:profile', id)
+        return redirect('accounts:profile', id)
     if me in you.followers.all():
         you.followers.remove(me)
     else:

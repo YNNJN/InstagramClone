@@ -1,0 +1,52 @@
+<div class="card col-4">
+
+    <!-- Button trigger modal -->
+    <button type="button" data-toggle="modal" data-target="#exampleModal_{{ post.id }}">
+      <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ post.content }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="container-fluid">
+                <img src="{{ post.image.url }}">
+            </div>
+            ...
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {% if user in post.like_users.all %}
+                <a href="{% url 'posts:like' post.id %}" class="btn btn-primary"><i class="fas fa-heart"></i> {{ post.like_users.all|length }}</a>
+            {% else %}
+                <a href="{% url 'posts:like' post.id %}" class="btn btn-primary"><i class="fas fa-heart"></i> {{ post.like_users.all|length }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="card-body">
+  <h5 class="card-title"></h5>
+  {% if user in post.like_users.all %}
+    <a href="{% url 'posts:like' post.id %}" class="btn btn-primary"><i class="fas fa-heart"></i> {{post.like_users.all|length}}</a>
+  {% else %}
+    <a href="{% url 'posts:like' post.id %}" class="btn btn-primary"><i class="far fa-heart"></i> {{post.like_users.all.count}}</a>
+  {% endif %}
+    <p> {{ post.like_users.count }} 명이 좋아합니다</p>
+
+  {% if user == post.user %}
+    <a href="{% url 'posts:delete' post.id %}" class="btn btn-outline-danger">delete</a>
+  {% endif %}
+    <a href="{% url 'posts:detail' post.id %}" class="btn btn-outline-primary">detail</a>
+</div>
