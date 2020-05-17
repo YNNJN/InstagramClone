@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% block body %}
-    <div class="row">
+
+  <div class="row">
     {% for post in posts %}
 
+        <a href="{% url 'posts:detail' post.id %}">
         {% include 'posts/_post.html' %}
+        <br>
 
     {% endfor %}
-    </div>
+  </div>
+
 {% endblock %}

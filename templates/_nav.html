@@ -1,19 +1,32 @@
-  <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'posts:index' %}">Main</a>
-    <a class="navbar-brand" href="{% url 'posts:create' %}">Create</a>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
-    </form>
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'posts:index' %}"><strong class="text-dark font-italic">gramClone</strong></a>
 
+  <div class="mx-auto">
+    <form class="form-inline " style="width: 600px">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"> </span>
+        </div>
+        <input type="text" class="form-control font-italic" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+      </div>
+    </form>
+  </div>
+
+  <div>
     {% if user.is_authenticated %}
-      <div>
-        <a href="{% url 'accounts:logout' %}">logout</a>
+      <div class="ml-5 pl-5">
+        <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+        <a class="navbar-brand text-secondary" href="{% url 'posts:create' %}"><i class="far fa-plus-square fa-lg"></i></a>
+        <a class="text-secondary" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
       </div>
+
     {% else %}
-      <div>
-        <a href="{% url 'accounts:signup' %}">signup</a>
-        <a href="{% url 'accounts:login' %}">login</a>
+      <div class="ml-5 pl-5">
+        <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+        <a class="text-secondary" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus fa-lg"></i></a>
+        <a class="text-secondary" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
       </div>
+
     {% endif %}
-  </nav>
+  </div>
+</nav>
