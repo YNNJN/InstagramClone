@@ -5,7 +5,7 @@
 
   <img src="{{ post.image.url }}" alt="">
 
-  <div class="card-body">
+    <div class="card-body">
     <h5 class="card-title"></h5>
 
     {% if user in post.like_users.all %}
@@ -20,8 +20,6 @@
     {% endif %}
       <a href="{% url 'posts:detail' post.id %}" class="btn btn-outline-primary">detail</a>
   </div>
-
-
   {% if user.is_authenticated %}
   <div class="col-4">
     <form action="{% url 'posts:comment_create' post.id %}" method='POST'>
