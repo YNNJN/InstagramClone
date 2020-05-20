@@ -1,32 +1,40 @@
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'posts:index' %}"><strong class="text-dark font-italic">gramClone</strong></a>
+<div class="sticky-top py-3 bg-white">
 
-  <div class="mx-auto">
-    <form class="form-inline " style="width: 600px">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1"> </span>
+  <div class="container">
+
+    <ul class="nav align-items-center justify-content-between">
+
+      <li class="nav-item">
+        <a class="navbar-brand" href="{% url 'posts:index' %}"><strong class="text-dark">gramClone</strong></a>
+      </li>
+
+      <li class="nav-item">
+        <form action="{% url 'posts:search' %}" class="form-inline">
+          {% csrf_token %}
+          <input class="form-control mr-sm-2" type="search" placeholder="Search by hashtag" name="search">
+          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </li>
+
+      <li class="nav-item">
+      {% if user.is_authenticated %}
+        <div class="ml-5 pl-5">
+          <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+          <a class="navbar-brand text-secondary" href="{% url 'posts:create' %}"><i class="far fa-plus-square fa-lg"></i></a>
+          <a class="text-secondary" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
         </div>
-        <input type="text" class="form-control font-italic" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-      </div>
-    </form>
+
+      {% else %}
+        <div class="ml-5 pl-5">
+          <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+          <a class="text-secondary" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus fa-lg"></i></a>
+          <a class="text-secondary" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
+        </div>
+
+      {% endif %}
+
+
+    </ul>
   </div>
 
-  <div>
-    {% if user.is_authenticated %}
-      <div class="ml-5 pl-5">
-        <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
-        <a class="navbar-brand text-secondary" href="{% url 'posts:create' %}"><i class="far fa-plus-square fa-lg"></i></a>
-        <a class="text-secondary" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
-      </div>
-
-    {% else %}
-      <div class="ml-5 pl-5">
-        <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
-        <a class="text-secondary" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus fa-lg"></i></a>
-        <a class="text-secondary" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
-      </div>
-
-    {% endif %}
-  </div>
-</nav>
+</div>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 
 from .models import Post, Comment, HashTag
 from .forms import PostForm, CommentForm
@@ -118,5 +119,13 @@ def hashtags(request, post_id):
     post = hashtag.taged_post.all()
     context = {
         'post': post,
+    }
+    return render(request, 'posts/index.html', context)
+
+def search(request):
+    target = request.GET.get('search')
+    posts = Post.objects.filter(Q(content__contains=target))
+    context = {
+        'posts': posts,
     }
     return render(request, 'posts/index.html', context)
