@@ -26,3 +26,4 @@ class Comment(models.Model):
 
 class HashTag(models.Model):
     name = models.CharField(max_length=100)
+

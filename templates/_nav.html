@@ -1,11 +1,13 @@
-<div class="sticky-top py-3 bg-white">
+{% load gravatar %}
+
+<div class="sticky-top bg-white pt-1">
 
   <div class="container">
 
     <ul class="nav align-items-center justify-content-between">
 
-      <li class="nav-item">
-        <a class="navbar-brand" href="{% url 'posts:index' %}"><strong class="text-dark">gramClone</strong></a>
+      <li class="nav-item mx-4">
+        <a class="navbar-brand" href="{% url 'posts:index' %}"><strong class="text-dark" style="font-size:22px">gramClone</strong></a>
       </li>
 
       <li class="nav-item">
@@ -16,25 +18,31 @@
         </form>
       </li>
 
-      <li class="nav-item">
       {% if user.is_authenticated %}
-        <div class="ml-5 pl-5">
-          <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
-          <a class="navbar-brand text-secondary" href="{% url 'posts:create' %}"><i class="far fa-plus-square fa-lg"></i></a>
-          <a class="text-secondary" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+      <li class="nav-item">
+      <div>
+        <a class="navbar-brand text-secondary mx-3" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+        <a class="navbar-brand text-secondary mx-2" href="{% url 'posts:create' %}"><i class="far fa-compass fa-lg"></i></a>
+        <a class="nav-link dropdown-toggle text-dark d-inline" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:18px'>
+          <img src="{{ request.user.gravatar_url }}" class="rounded-circle" height="30" width="30">
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'accounts:profile' user.id %}" class="text-decoration-none text-dark">Profile</a></button>
+          <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none text-secondary">Log-out</a></button>
         </div>
+      </div>
 
       {% else %}
-        <div class="ml-5 pl-5">
-          <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
-          <a class="text-secondary" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus fa-lg"></i></a>
-          <a class="text-secondary" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
-        </div>
+      <div>
+        <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+        <a class="text-secondary" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus fa-lg"></i></a>
+        <a class="text-secondary" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
+      </div>
 
       {% endif %}
-
+      </li>
 
     </ul>
   </div>
-
+  <hr class="my-2">
 </div>
