@@ -1,3 +1,5 @@
+{% load make_link %}
+
 <div class="col-4">
 
     <!-- Button trigger modal -->
@@ -17,6 +19,7 @@
           </div>
 
           <div class="modal-body">
+            {{ post|add_link|safe }}
             <div class="container-fluid">
                 <img src="{{ post.image.url }}">
             </div>

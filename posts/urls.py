@@ -6,6 +6,7 @@ app_name = 'posts'
 urlpatterns = [
     path('', views.index, name="index"),
     path('create/', views.create, name="create"),
+    path('hashtags/<int:post_id>/', views.hashtags, name="hashtags"),
     path('<int:post_id>/', views.detail, name="detail"),
     path('<int:post_id>/like/', views.like, name="like"),
     path('<int:post_id>/delete/', views.delete, name="delete"),

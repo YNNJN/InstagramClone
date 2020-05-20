@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load bootstrap4 %}
+{% load make_link %}
 {% block body %}
 
   <img src="{{ post.image.url }}" alt="">
 
-    <div class="card-body">
+  <div class="card-body">
     <h5 class="card-title"></h5>
-
+    <p class="card-text">{{ post|add_link|safe }}</p>
     {% if user in post.like_users.all %}
       <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="fas fa-heart"></i> {{post.like_users.all|length}}</a>
     {% else %}
@@ -18,7 +19,7 @@
     {% if user == post.user %}
       <a href="{% url 'posts:delete' post.id %}" class="btn btn-outline-danger">delete</a>
     {% endif %}
-      <a href="{% url 'posts:detail' post.id %}" class="btn btn-outline-primary">detail</a>
+      <a href="{% url 'posts:update' post.id %}" class="btn btn-outline-primary">update</a>
   </div>
   {% if user.is_authenticated %}
   <div class="col-4">

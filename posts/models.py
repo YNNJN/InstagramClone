@@ -10,11 +10,12 @@ class Post(models.Model):
     image = ProcessedImageField(
         processors=[ResizeToFill(300, 300)],
         format='JPEG',
-        options={'quality': 60},
+        options={'quality': 90},
         upload_to='media',
         )
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_posts")
     created_at = models.DateTimeField(auto_now_add=True)
+    tags = models.ManyToManyField('HashTag', related_name="taged_post")
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -22,3 +23,6 @@ class Comment(models.Model):
     comment = models.CharField(max_length=100)
     creted_at = models.DateField(auto_now_add=True)
     comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="comment_like_users")
+
+class HashTag(models.Model):
+    name = models.CharField(max_length=100)
