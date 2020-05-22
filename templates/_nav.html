@@ -27,7 +27,7 @@
           <img src="{{ request.user.gravatar_url }}" class="rounded-circle" height="30" width="30">
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'accounts:profile' user.id %}" class="text-decoration-none text-dark">Profile</a></button>
+          <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'profile' user.username %}" class="text-decoration-none text-dark">Profile</a></button>
           <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none text-secondary">Log-out</a></button>
         </div>
       </div>

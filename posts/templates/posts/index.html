@@ -16,8 +16,8 @@
   <div class="row justify-content-center">
     {% for post in posts %}
       <a href="{% url 'posts:detail' post.id %}">
-      {% include 'posts/_post.html' %}
-      <br>
+      {% include '_post.html' %}
+      </a>
     {% endfor %}
   </div>
 

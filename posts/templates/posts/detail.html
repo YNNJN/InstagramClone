@@ -18,8 +18,9 @@
 
     {% if user == post.user %}
       <a href="{% url 'posts:delete' post.id %}" class="btn btn-outline-danger">delete</a>
-    {% endif %}
       <a href="{% url 'posts:update' post.id %}" class="btn btn-outline-primary">update</a>
+    {% endif %}
+
   </div>
   {% if user.is_authenticated %}
   <div class="col-4">

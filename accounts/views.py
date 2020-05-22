@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
 
 # Create your views here.
@@ -36,8 +36,8 @@ def logout(request):
     auth_logout(request)
     return redirect('accounts:login')
 
-def profile(request, id):
-    user_info = get_object_or_404(User, id=id)
+def profile(request, username):
+    user_info = get_object_or_404(User, username=username)
     context = {
         'user_info': user_info
     }
@@ -53,3 +53,17 @@ def follow(request, id):
     else:
         you.followers.add(me)
     return redirect('accounts:profile', id)
+
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('posts:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/update.html', context)
+
