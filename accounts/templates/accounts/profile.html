@@ -25,30 +25,31 @@
         <strong class="d-inline px-1">{{ user_info.followers.all | length }}</strong>
         <p class="d-inline mr-4">followers</p>
       </a>
-      {% include '_followermodal.html' %}
       <a href="" class="d-inline text-decoration-none text-reset" data-toggle="modal" data-target="#followingModal">
         <strong class="d-inline px-1">{{ user_info.followings.all | length }}</strong>
         <p class="d-inline mr-4">following</p>
       </a>
-      {% include '_followingmodal.html' %}
     </div>
   </div>
 </div>
 <hr class="py-2">
 
-{% if user.is_authenticated and user != user_info %}
-  <a href="{% url 'account:follow' user_info.id %}">follow</a>
-{% endif %}
 
-<div class="row justify-content-center">
+{% include '_followermodal.html' %}
+{% include '_followingmodal.html' %}
+
+<div class="row">
   {% for post in user_info.post_set.all %}
-  <a href="{% url 'posts:detail' post.id %}">{% include '_post.html' %}</a>
+    <div class="col-4 d-flex align-items-center justify-content-around">
+      <a href="{% url 'posts:detail' post.id %}">
+        <img src="{{ post.image.url }}">
+      </a>
+    </div>
   {% empty %}
-  <div class="py-5">
+  <div class="ml-4 py-5 justify-content-center">
     <h4>There is no post</h3>
     <h4>Upload your first post</h3>
-    <br>
-    <a class="btn btn-primary" href="{% url 'posts:create' %}">Create Post!</a>
+    <a class="btn btn-primary mt-3" href="{% url 'posts:create' %}">Create Post!</a>
   </div>
   {% endfor %}
 </div>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from .forms import CustomUserCreationForm, CustomUserChangeForm
@@ -43,16 +44,17 @@ def profile(request, username):
     }
     return render(request, 'accounts/profile.html', context)
 
-def follow(request, id):
-    you = get_object_or_404(User, id=id)
+@login_required
+def follow(request, username):
+    you = get_object_or_404(User, username=username)
     me = request.user
     if you == me:
-        return redirect('accounts:profile', id)
+        return redirect('profile', username)
     if me in you.followers.all():
         you.followers.remove(me)
     else:
         you.followers.add(me)
-    return redirect('accounts:profile', id)
+    return redirect('profile', you.username)
 
 def update(request):
     if request.method == 'POST':

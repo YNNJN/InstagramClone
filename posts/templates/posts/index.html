@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load make_link %}
+
+
 {% block body %}
 
-
-<div class="jumbotron bg-light">
+<div class="jumbotron bg-light pb-3">
 
   <div class="container">
     {% if request.resolver_match.url_name == 'index' %}
@@ -13,14 +15,54 @@
     <p class="lead pb-3">post {{posts | length}}</p>
   </div>
 
-  <div class="row justify-content-center">
-    {% for post in posts %}
-      <a href="{% url 'posts:detail' post.id %}">
-      {% include '_post.html' %}
-      </a>
-    {% endfor %}
-  </div>
+  {% for post in posts %}
+  <div class="card w-75 mb-5">
+    <div class="card-header bg-white d-flex justify-content-between p-0 mx-3 my-3">
+      <h5 class="card-title">
+        <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
+          <img src="{{ post.user.gravatar_url }}" class="rounded-circle" height="33" width="33">
+          <p class="d-inline ml-3" style="font-size: 1.1rem">{{ post.user.username }}</p>
+        </a>
+        <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset ml-2" style="font-size: 0.9rem">
+          {% if user != post.user %}
+            {% if user in user_info.followers.all %}
+              Unfollow
+            {% else %}
+              Follow
+            {% endif %}
+          {% endif %}
+        </a>
+      </h5>
+      <i class="fas fa-ellipsis-h mt-2"></i>
+    </div>
 
-</div>
+    <div class="card-body">
+      <img src="{{ post.image.url }}" width="100%">
+      <div class="mt-3">
+        <p class="card-text">{{ post|add_link|safe }}</p>
+        {% if user in post.like_users.all %}
+          <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="fas fa-heart"></i></a>
+          <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></i></a>
+        {% else %}
+          <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="far fa-heart"></i></a>
+          <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></a>
+        {% endif %}
+        <p>좋아요 {{ post.like_users.count }}개</p>
+        <p class="text-secondary" style="font-size: 0.7rem">{{ post.created_at | date:'m월 d일' }}</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="input-group pb-3 px-2">
+      <input type="text" class="form-control border-0 rounded-0 text-secondary" placeholder="댓글달기...">
+      <div class="input-group-append">
+        <button class="btn rounded-0 text-primary" type="button">게시</button>
+      </div>
+    </div>
+
+
+  </div>
+  {% endfor %}
 
 {% endblock %}

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="follwerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="followerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -9,27 +9,32 @@
         </button>
       </div>
       <div class="modal-body">
+
         {% for follower in user_info.followers.all %}
-        <div class="d-flex justify-content-between">
-          <a href="{% url 'profile' follower.username %}">
-            <img src="{{ follower.gravatar_url }} class=rounded-circle" height="30" width="30">{{ follower.username }}
-          </a>
+        <div class="d-flex justify-content-between px-2">
+          <p>
+            <a href="{% url 'profile' follower.username %}" class="text-decoration-none text-reset">
+              <img src="{{ follower.gravatar_url }}" class="rounded-circle mr-2" height="30" width="30">{{ follower.username }}
+            </a>
+          </p>
+          <p>
+            {% if request.user != user_info %}
+              <a href="{% url 'accounts:follow' follower.username %}" class="btn btn-secondary btn-sm">
+                {% if request.user in user_info.followers.all %}
+                  Following
+                {% else %}
+                  Follow
+                {% endif %}
+              </a>
+            {% endif %}
+          </p>
         </div>
-        <a href="{% url 'profile' follwer.username %}" class="btn btn-secondary">
-
-          {% if request.user in follower.followers.all %}
-            Following
-          {% else %}
-            Follow
-          {% endif %}
-
-        </a>
+        {% empty %}
+          <div class="py-5">
+            <h4>There is no follower</h3>
+          </div>
         {% endfor %}
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

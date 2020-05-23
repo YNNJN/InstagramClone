@@ -1,36 +1,41 @@
 <!-- Modal -->
-<div class="modal fade" id="follwingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Followers</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Following</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        {% for follower in user_info.followers.all %}
-        <div class="d-flex justify-content-between">
-          <a href="{% url 'profile' follower.username %}">
-            <img src="{{ follower.gravatar_url }} class=rounded-circle" height="30" width="30">{{ follower.username }}
+        <div class="d-flex justify-content-between my-3">
+        {% for following in user_info.followings.all %}
+          <a href="{% url 'profile' following.username %}" class="text-decoration-none text-reset">
+            <img src="{{ following.gravatar_url }}" class="rounded-circle mr-2" height="30" width="30">
+            <p>{{ following.username }}</p>
           </a>
-        </div>
-        <a href="{% url 'profile' follwer.username %}" class="btn btn-secondary">
 
-          {% if request.user in follower.followers.all %}
-            Following
-          {% else %}
-            Follow
+          {% if request.user != user_info %}
+          <a href="{% url 'accounts:follow' following.username %}" class="float-right btn btn-secondary btn-sm">
+            {% if request.user in user_info.followings.all %}
+              Following
+            {% else %}
+              Follow
+            {% endif %}
+          </a>
           {% endif %}
+        </div>
 
-        </a>
-        {% endfor %}
-      </div>
+      {% empty %}
+        <div class="py-5">
+          <h5>There is no following</h5>
+          <h5>Follow your first friend!</h5>
+        </div>
+      {% endfor %}
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
 </div>
+
