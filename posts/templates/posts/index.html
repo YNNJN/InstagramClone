@@ -18,8 +18,8 @@
 
   {% for post in posts %}
   <div class="card w-75 mb-5">
-    <div class="card-header bg-white d-flex justify-content-between p-0 mx-3 my-3">
-      <h5 class="card-title">
+    <div class="card-header bg-white d-flex justify-content-between p-0 mt-3 mx-3">
+      <h5 class="card-title d-flex align-items-center">
         <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
           <img src="{{ post.user.gravatar_url }}" class="rounded-circle" height="33" width="33">
           <p class="d-inline ml-3" style="font-size: 1.1rem">{{ post.user.username }}</p>
@@ -36,7 +36,7 @@
       </h5>
       <div class="dropdown show">
         <a class="btn shadow-none dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-ellipsis-h mt-2"></i>
+          <i class="fas fa-ellipsis-h"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
@@ -55,8 +55,12 @@
       </div>
     </div>
 
+    <a href="" data-toggle="modal" data-target="#modal{{ post.id }}">
+      <img src="{{ post.image.url }}" class="w-100 h-100 rounded-0">
+      {% include '_post.html' %}
+    </a>
+
     <div class="card-body">
-      <img src="{{ post.image.url }}" width="100%">
       <div class="mt-3">
 
         {% if user in post.like_users.all %}
@@ -90,7 +94,7 @@
     <form action="{% url 'posts:comment_create' post.id %}" method='POST'>
       {% csrf_token %}
       <div class="input-group pb-3 px-2">
-        <input type="text" class="form-control border-0 rounded-0 text-secondary" placeholder="댓글달기...">
+        <input type="text" name="comment" class="form-control border-0 rounded-0 text-secondary" placeholder="댓글달기...">
         <div class="input-group-append">
           <button class="btn rounded-0 text-primary" type="submit">게시</button>
         </div>

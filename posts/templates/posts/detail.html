@@ -2,42 +2,117 @@
 {% load static %}
 {% load bootstrap4 %}
 {% load make_link %}
+
+
 {% block body %}
 
-  <img src="{{ post.image.url }}" alt="">
+<div class="container py-5 w-75">
+    <div class="row no-gutters bg-white">
+        <div class="col-md-8">
+            <img src="{{ post.image.url }}" alt="" width="532">
+        </div>
+        <div class="col-md-4 border">
+          <div class="card-body">
+            <h5 class="card-title d-inline">
+              <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
+                <img src="{{ post.user.gravatar_url }}" class="rounded-circle" height="33" width="33">
+                <p class="d-inline ml-3" style="font-size: 1.1rem">{{ post.user.username }}</p>
+              </a>
+              {% if user != post.user %}
+                {% if user in user_info.followers.all %}
+                  • <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-danger mx-1" style="font-size: small;">Unfollow</a>
+                {% else %}
+                  • <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-primary mx-1" style="font-size: small;">Follow</a>
+                {% endif %}
+              {% endif %}
+            </h5>
 
-  <div class="card-body">
-    <h5 class="card-title"></h5>
-    <p class="card-text">{{ post|add_link|safe }}</p>
-    {% if user in post.like_users.all %}
-      <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="fas fa-heart"></i> {{post.like_users.all|length}}</a>
-    {% else %}
-      <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="far fa-heart"></i> {{post.like_users.all.count}}</a>
-    {% endif %}
-      <p> {{ post.like_users.count }} 명이 좋아합니다</p>
+            <div class="dropdown show d-inline p-0">
+              <a class="btn shadow-none dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-h"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-    {% if user == post.user %}
-      <a href="{% url 'posts:delete' post.id %}" class="btn btn-outline-danger">delete</a>
-      <a href="{% url 'posts:update' post.id %}" class="btn btn-outline-primary">update</a>
-    {% endif %}
+                <a class="dropdown-item text-danger" href="{% url 'accounts:follow' post.user.username %}">
+                  {% if user != post.user %}
+                    {% if user in user_info.followers.all %}
+                      Unfollow
+                    {% else %}
+                      Follow
+                    {% endif %}
+                  {% endif %}
+                </a>
+                <a class="dropdown-item" href="{% url 'posts:detail' post.id %}">Detail</a>
+                <a class="dropdown-item" href="">Cancel</a>
+              </div>
+            </div>
 
+            <div class="modal-body">
+              <strong>{{ post.user }}</strong><p class="card-text d-inline ml-2">{{ post|add_link|safe }}</p>
+
+              <div class="mt-3">
+                {% for comment in post.comment_set.all %}
+                  <p class="m-0">
+                    <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
+                      <img src="{{ comment.user.gravatar_url}}" class="rounded-circle mr-2 my-1" height="33" width="33">
+                      <strong>{{ comment.user }}</strong>
+                    </a>
+                    : {{ comment.comment }}
+                  </p>
+                {% empty %}
+                  <p class="text-secondary">첫번째 댓글을 달아주세요!</p>
+                {% endfor %}
+              </div>
+
+              <hr>
+
+              <div class="p-0">
+                {% if user in post.like_users.all %}
+                  <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="fas fa-heart"></i></a>
+                  <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></i></a>
+                {% else %}
+                  <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="far fa-heart"></i></a>
+                  <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></a>
+                {% endif %}
+                <p>좋아요 {{ post.like_users.count }}개</p>
+                <p class="text-secondary mt-4" style="font-size: 0.7rem">{{ post.created_at | date:'m월 d일' }}</p>
+              </div>
+
+              <hr>
+
+              <form action="{% url 'posts:comment_create' post.id %}" method='POST'>
+                {% csrf_token %}
+                <div class="input-group">
+                  <input type="text" name="comment" class="form-control border-0 rounded-0 text-secondary" placeholder="댓글달기...">
+                  <div class="input-group-append">
+                    <button class="btn rounded-0 text-primary" type="submit">게시</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
   </div>
-  {% if user.is_authenticated %}
-  <div class="col-4">
-    <form action="{% url 'posts:comment_create' post.id %}" method='POST'>
 
-        {% csrf_token %}
+<hr class="mb-5">
 
-        {% bootstrap_form comment_form %}
+<a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
+  <strong>{{ post.user.username }}</strong>님의 게시물 더 보기
+</a>
 
-        <input type="submit" value='댓글작성' class='btn btn-primary'>
-    </form>
+<div class="row no-gutter mt-3">
+  {% for post in post.user.post_set.all %}
+    <div class="col-4 d-flex align-items-center justify-content-around">
+      <a href="{% url 'posts:detail' post.id %}">
+        <img src="{{ post.image.url }}" class="pb-4" width="250">
+      </a>
+    </div>
+  {% empty %}
+  <div class="ml-4 py-5 justify-content-center">
+    <h4>There is no post</h3>
   </div>
-
-  {% endif %}
-
-  {% for comment in post.comment_set.all %}
-    <h1>{{comment.comment}}</h1>
   {% endfor %}
+</div>
+
 
 {% endblock %}
