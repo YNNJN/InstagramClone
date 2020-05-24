@@ -4,6 +4,7 @@
 
 
 <link rel="stylesheet" href="{% static 'css/modal_position.css' %}">
+<link rel="stylesheet" href="{% static 'css/body_scroll.css' %}">
 
 <div class="modal fade bd-example-modal-lg" id="modal{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -56,7 +57,7 @@
           <div class="modal-body">
             <strong>{{ post.user }}</strong><p class="card-text d-inline ml-2">{{ post|add_link|safe }}</p>
 
-            <div class="mt-3">
+            <div class="mt-3 comment_section">
               {% for comment in post.comment_set.all %}
                 <p class="m-0">
                   <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
@@ -103,3 +104,10 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('head').append('<style type="text/css">.modal .modal-body {max-height: ' + ($('body').height() * .8) + 'px;overflow-y: auto;}.modal-open .modal{overflow-y: hidden !important;}</style>');
+  });
+
+</script>
