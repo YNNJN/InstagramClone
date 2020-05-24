@@ -10,9 +10,13 @@ from .forms import PostForm, CommentForm
 
 # Create your views here.
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-id')
+    comments = Comment.objects.all().order_by('-id')
+    comment_form = CommentForm()
     context = {
-        'posts': posts
+        'posts': posts,
+        'comments': comments,
+        'comment_form': comment_form,
     }
     return render(request, 'posts/index.html', context)
 
@@ -117,8 +121,12 @@ def comment_delete(request, post_id, comment_id):
 def hashtags(request, post_id):
     hashtag = get_object_or_404(HashTag, id=post_id)
     post = hashtag.taged_post.all()
+    comments = Comment.objects.all().order_by('-id')
+    comment_form = CommentForm()
     context = {
         'post': post,
+        'comments': comments,
+        'comment_form': comment_form,
     }
     return render(request, 'posts/index.html', context)
 

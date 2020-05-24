@@ -9,33 +9,34 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="d-flex justify-content-between my-3">
+
         {% for following in user_info.followings.all %}
-          <a href="{% url 'profile' following.username %}" class="text-decoration-none text-reset">
-            <img src="{{ following.gravatar_url }}" class="rounded-circle mr-2" height="30" width="30">
-            <p>{{ following.username }}</p>
-          </a>
-
-          {% if request.user != user_info %}
-          <a href="{% url 'accounts:follow' following.username %}" class="float-right btn btn-secondary btn-sm">
-            {% if request.user in user_info.followings.all %}
-              Following
-            {% else %}
-              Follow
+        <div class="d-flex justify-content-between px-2">
+          <p>
+            <a href="{% url 'profile' following.username %}" class="text-decoration-none text-reset">
+              <img src="{{ following.gravatar_url }}" class="rounded-circle mr-2" height="30" width="30">{{ following.username }}
+            </a>
+          </p>
+          <p>
+            {% if request.user != user_info %}
+              <a href="{% url 'accounts:follow' following.username %}" class="btn btn-secondary btn-sm">
+                {% if request.user in user_info.followings.all %}
+                  Following
+                {% else %}
+                  Follow
+                {% endif %}
+              </a>
             {% endif %}
-          </a>
-          {% endif %}
+          </p>
         </div>
-
-      {% empty %}
-        <div class="py-5">
-          <h5>There is no following</h5>
-          <h5>Follow your first friend!</h5>
-        </div>
-      {% endfor %}
+        {% empty %}
+          <div class="py-5">
+            <h4>There is no following</h4>
+            <h4>Follow your friend!</h4>
+          </div>
+        {% endfor %}
 
       </div>
     </div>
   </div>
 </div>
-

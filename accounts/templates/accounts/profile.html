@@ -42,7 +42,7 @@
   {% for post in user_info.post_set.all %}
     <div class="col-4 d-flex align-items-center justify-content-around">
       <a href="{% url 'posts:detail' post.id %}">
-        <img src="{{ post.image.url }}">
+        <img src="{{ post.image.url }}" class="pb-3">
       </a>
     </div>
   {% empty %}
