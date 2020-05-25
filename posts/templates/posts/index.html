@@ -72,7 +72,7 @@
         {% endif %}
         <p>좋아요 {{ post.like_users.count }}개</p>
         <strong>{{ post.user }}</strong><p class="card-text d-inline ml-2">{{ post|add_link|safe }}</p>
-        <a href="{% url 'posts:detail' post.id %}" class="d-block text-secondary">댓글 모두 보기</a>
+        <a href="{% url 'posts:detail' post.id %}" class="d-block text-secondary">댓글 {{ post.comment_set.count }}개 모두 보기</a>
 
         {% for comment in post.comment_set.all %}
           <p class="m-0">

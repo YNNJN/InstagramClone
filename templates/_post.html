@@ -11,14 +11,14 @@
     <div class="modal-content">
 
       <div class="row no-gutters">
-        <div class="col-md-8 pl-0">
+        <div class="col-md-8 p-0 mr-2">
           <div>
             <img src="{{ post.image.url }}" alt="" width="500">
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="modal-header">
+        <div class="col-md-4 ml-1">
+          <div class="modal-header d-flex justify-content-between">
             <h5 class="modal-title">
               <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
                 <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-0 mr-1" height="33" width="33">
@@ -104,10 +104,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function () {
-    $('head').append('<style type="text/css">.modal .modal-body {max-height: ' + ($('body').height() * .8) + 'px;overflow-y: auto;}.modal-open .modal{overflow-y: hidden !important;}</style>');
-  });
-
-</script>
