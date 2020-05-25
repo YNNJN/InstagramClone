@@ -1,0 +1,12 @@
+{% load mathfilters %}
+
+
+<div class="p-0">
+  {% if user in post.like_users.all %}
+    <i class="fas fa-heart like-button" data-id="{{ post.id }}"></i>
+    <i class="far fa-comment"></i>
+  {% else %}
+    <i class="far fa-heart like-button" data-id="{{ post.id }}"></i>
+    <i class="far fa-comment"></i>
+  {% endif %}
+</div>

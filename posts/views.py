@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
 from django.db.models import Q
 
 from .models import Post, Comment, HashTag
@@ -86,9 +87,16 @@ def like(request, post_id):
     user = request.user
     if user in post.like_users.all():
         post.like_users.remove(user)
+        liked = False
     else:
         post.like_users.add(user)
-    return redirect('posts:detail', post_id)
+        liked = True
+
+    context = {
+        'liked': liked,
+        'count': post.like_users.count(),
+    }
+    return JsonResponse(context)
 
 @require_POST
 def comment_create(request, post_id):

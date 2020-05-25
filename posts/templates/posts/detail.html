@@ -2,6 +2,7 @@
 {% load static %}
 {% load bootstrap4 %}
 {% load make_link %}
+{% load mathfilters %}
 
 
 <link rel="stylesheet" href="{% static 'css/body_scroll.css' %}">
@@ -69,19 +70,23 @@
                 {% endfor %}
               </div>
 
-              <hr class="">
-
-              <div class="p-0">
-                {% if user in post.like_users.all %}
-                  <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="fas fa-heart"></i></a>
-                  <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></i></a>
-                {% else %}
-                  <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="far fa-heart"></i></a>
-                  <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></a>
-                {% endif %}
-                <p>좋아요 {{ post.like_users.count }}개</p>
-                <p class="text-secondary mt-5" style="font-size: 0.7rem">{{ post.created_at | date:'m월 d일' }}</p>
+              <hr>
+              <div>
+                {% include 'posts/like.html' %}
+                <div data-togle="modal" data-target="#likersModal" class="p-0">
+                  {% if post.like_users.count >= 2 %}
+                    <strong id="lastLiker-${postId}">{{ post.like_users.first }}</strong>님 외
+                    <span id="likeCount-${postId}">{{ post.like_users.count | sub:1 }} 명이 좋아합니다</span>
+                  {% elif post.like_users.count == 1 %}
+                    <strong id="lastLiker-${postId}">{{ post.like_users.first }}</strong>님이 좋아합니다
+                    <span id="likeCount-${postId}" class="d-none"></span>
+                  {% else %}
+                    <span id="lastLiker-${postId}" class="d-none"></span><span id="likeCount-${postId}" class="d-none"></span>
+                  {% endif %}
+                </div>
               </div>
+
+              <p class="text-secondary mt-5" style="font-size: 0.7rem">{{ post.created_at | date:'m월 d일' }}</p>
 
               <hr>
 
@@ -98,6 +103,8 @@
           </div>
       </div>
   </div>
+
+{% include '_likers.html' %}
 
 <hr class="mb-5">
 
@@ -119,5 +126,53 @@
   {% endfor %}
 </div>
 
+
+<script>
+const likeButtonList = document.querySelectorAll('.like-button')
+likeButtonList.forEach(likeButton => {
+  likeButton.addEventListener('click', function(event) {
+    const postId = event.target.dataset.id
+
+    {% if user.is_authenticated %}
+    axios.get(`/posts/${postId}/like/`)
+      .then(response => {
+
+        const likeCount = response.data.count
+        if (likeCount == 0){
+          likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
+          lastLiker = document.querySelector(`#lastLiker-${postId}`).classList.add('d-none')
+        } else if (likeCount == 1){
+          likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
+          lastLiker = document.querySelector(`#lastLiker-${postId}`)
+          lastLiker.innerText = response.data.last + '님이 좋아합니다'
+          lastLiker.classList.remove('d-none')
+        } else{
+          lastLiker = document.querySelector(`#lastLiker-${postId}`)
+          lastLiker.innerText = response.data.last
+          lastLiker.classList.remove('d-none')
+          likeCount = document.querySelector(`#likeCount-${postId}`)
+          likeCount.classList.remove('d-none')
+          likeCount.innerText = '님 외 ' + (response.data.count - 1) + '명이 좋아합니다'
+        }
+
+        if (response.data.liked === true) {
+          event.target.classList.remove('far')
+          event.target.classList.add('fas')
+        } else {
+          event.target.classList.remove('fas')
+          event.target.classList.add('far')
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    {% else %}
+      alert('로그인하지 않은 사용자는 좋아요를 누를 수 없습니다')
+    {% endif %}
+  })
+})
+
+
+</script>
 
 {% endblock %}

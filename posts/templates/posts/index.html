@@ -27,9 +27,9 @@
         <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset ml-2" style="font-size: 0.9rem">
           {% if user != post.user %}
             {% if user in user_info.followers.all %}
-              Unfollow
+              <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-danger mx-1" style="font-size: small;">Unfollow</a>
             {% else %}
-              Follow
+              <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-primary mx-1" style="font-size: small;">Follow</a>
             {% endif %}
           {% endif %}
         </a>
