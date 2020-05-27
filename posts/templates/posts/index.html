@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% load make_link %}
-
+{% load mathfilters %}
 
 {% block body %}
 
@@ -63,27 +63,26 @@
     <div class="card-body">
       <div class="mt-3">
 
-        {% if user in post.like_users.all %}
-          <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="fas fa-heart"></i></a>
-          <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></i></a>
-        {% else %}
-          <a href="{% url 'posts:like' post.id %}" class="text-secondary"><i class="far fa-heart"></i></a>
-          <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></a>
-        {% endif %}
-        <p>좋아요 {{ post.like_users.count }}개</p>
-        <strong>{{ post.user }}</strong><p class="card-text d-inline ml-2">{{ post|add_link|safe }}</p>
-        <a href="{% url 'posts:detail' post.id %}" class="d-block text-secondary">댓글 {{ post.comment_set.count }}개 모두 보기</a>
+        {% include 'posts/like.html' %}
+        <div>
+          <a href="{% url 'posts:detail' post.id %}" class="d-inline text-decoration-none text-reset">
+            {% if post.like_users.count >= 2 %}
+              <strong id="lastLiker-{{ post.id }}">{{ post.like_users.last }}</strong>님 외
+              <span id="likeCount-{{ post.id }}">{{ post.like_users.count | sub:1 }} 명이 좋아합니다</span>
+            {% elif post.like_users.count == 1 %}
+              <strong id="lastLiker-{{ post.id }}">{{ post.like_users.last }}</strong>님이 좋아합니다
+              <span id="likeCount-{{ post.id }}" class="d-none"></span>
+            {% else %}
+              <span id="lastLiker-{{ post.id }}" class="d-none"></span><span id="likeCount-{{ post.id }}" class="d-none"></span>
+            {% endif %}
+          </a>
+        </div>
 
-        {% for comment in post.comment_set.all %}
-          <p class="m-0">
-            <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
-              <strong>{{ comment.user }}</strong>
-            </a>
-            : {{ comment.comment }}
-          </p>
-        {% empty %}
-          <p class="text-secondary">첫번째 댓글을 달아주세요!</p>
-        {% endfor %}
+        {% if post.comment_set.count > 0 %}
+          <a href="{% url 'posts:detail' post.id %}" class="d-block text-secondary">댓글 {{ post.comment_set.count }}개 모두 보기</a>
+        {% else %}
+          <p class="text-secondary">아직 댓글이 없습니다. 첫번째 댓글을 달아주세요!</p>
+        {% endif %}
 
         <p class="text-secondary mt-4" style="font-size: 0.7rem">{{ post.created_at | date:'m월 d일' }}</p>
       </div>
@@ -103,5 +102,52 @@
 
   </div>
   {% endfor %}
+
+<script>
+const likeButtonList = document.querySelectorAll('.like-button')
+likeButtonList.forEach(likeButton => {
+  likeButton.addEventListener('click', function(event) {
+    const postId = event.target.dataset.id
+
+    {% if user.is_authenticated %}
+    axios.get(`/posts/${postId}/like/`)
+      .then(response => {
+
+        if (response.data.liked === true) {
+          event.target.classList.remove('far')
+          event.target.classList.add('fas')
+        } else {
+          event.target.classList.remove('fas')
+          event.target.classList.add('far')
+        }
+
+        let likeCount = response.data.count
+        if (likeCount == 0){
+          likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
+          lastLiker = document.querySelector(`#lastLiker-${postId}`).classList.add('d-none')
+        } else if (likeCount == 1){
+          likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
+          lastLiker = document.querySelector(`#lastLiker-${postId}`)
+          lastLiker.innerText = "{{ request.user }}" + '님이 좋아합니다'
+          lastLiker.classList.remove('d-none')
+        } else{
+          lastLiker = document.querySelector(`#lastLiker-${postId}`)
+          lastLiker.innerText = "{{ request.user }}"
+          lastLiker.classList.remove('d-none')
+          likeCount = document.querySelector(`#likeCount-${postId}`)
+          likeCount.classList.remove('d-none')
+          likeCount.innerText = (response.data.count - 1) + '명이 좋아합니다'
+        }
+
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    {% else %}
+      alert('로그인하지 않은 사용자는 좋아요를 누를 수 없습니다')
+    {% endif %}
+  })
+})
+</script>
 
 {% endblock %}
