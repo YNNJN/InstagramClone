@@ -56,7 +56,7 @@
               <div class="pb-3">
                 <strong>{{ post.user }}</strong><p class="card-text d-inline ml-2">{{ post|add_link|safe }}</p>
               </div>
-              <div class="mt-3 comment_section">
+              <div class="mt-3 comment_section" id="comment-list-{{ post.id }}">
                 {% for comment in post.comment_set.all %}
                   <p class="m-0">
                     <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
@@ -92,7 +92,7 @@
 
               <hr>
 
-              <form action="{% url 'posts:comment_create' post.id %}" method='POST'>
+              <form action="{% url 'posts:comment_create' post.id %}" method='POST' class="comment-form">
                 {% csrf_token %}
                 <div class="input-group">
                   <input type="text" name="comment" class="form-control border-0 rounded-0 text-secondary" placeholder="댓글달기...">
@@ -101,6 +101,7 @@
                   </div>
                 </div>
               </form>
+
             </div>
           </div>
       </div>
@@ -175,6 +176,29 @@ likeButtonList.forEach(likeButton => {
   })
 })
 
+const commentForms = document.querySelectorAll('.comment-form')
+commentForms.forEach(function(form) {
+  form.addEventListener('submit', function(event) {
+    event.preventDefault()
+    // console.log(event)
+    const data = new FormData(event.target) // 클래스로부터 인스턴스 만들기 - new 키워드
+    // FormData 검증
+    /*
+    for (const item of data.entries()) { // iterator 반환
+      console.log(item) // Form 태그를 통해 POST로 요청 보내면 csrf token과 comment가 전송됨
+    }
+     */
+    axios.post(event.target.action, data)
+      .then(function(response) {
+        const comment = response.data
+        const commentList = document.querySelector(`#comment-list-${comment.postId}`)
+        // todo - UI 수정할 것
+        const newComment = `<strong>${ comment.username }</strong>: ${ comment.comment }`
+        commentList.insertAdjacentHTML('beforeEnd', newComment)
+        event.target.reset()
+      })
+  })
+})
 
 </script>
 

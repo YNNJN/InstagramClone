@@ -107,7 +107,13 @@ def comment_create(request, post_id):
         comment.user = request.user
         comment.post = post
         comment.save()
-    return redirect('posts:detail', post_id)
+
+    return JsonResponse({
+        'id': comment.id,
+        'postId': post_id,
+        'username': comment.user.username,
+        'comment': comment.comment,
+    })
 
 @login_required
 def comment_delete(request, post_id, comment_id):
