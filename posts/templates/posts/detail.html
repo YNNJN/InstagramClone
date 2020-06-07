@@ -45,6 +45,9 @@
                     {% endif %}
                   {% endif %}
                 </a>
+                {% if user == post.user %}
+                  <a class="dropdown-item text-danger" href="{% url 'posts:delete' post.id%}">Delete</a>
+                {% endif %}
                 <a class="dropdown-item" href="{% url 'posts:detail' post.id %}">Detail</a>
                 <a class="dropdown-item" href="">Cancel</a>
               </div>
@@ -76,10 +79,10 @@
               <div>
                 <a href="" class="d-inline text-decoration-none text-reset" data-toggle="modal" data-target="#likersModal" class="p-0">
                   {% if post.like_users.count >= 2 %}
-                    <strong id="lastLiker-{{ post.id }}">{{ post.like_users.last }}</strong>님 외
-                    <span id="likeCount-{{ post.id }}">{{ post.like_users.count | sub:1 }} 명이 좋아합니다</span>
+                    <strong id="lastLiker-{{ post.id }}">Liked by {{ post.like_users.last }}</strong>
+                    <span id="likeCount-{{ post.id }}"> and {{ post.like_users.count | sub:1 }}  others</span>
                   {% elif post.like_users.count == 1 %}
-                    <strong id="lastLiker-{{ post.id }}">{{ post.like_users.last }}</strong>님이 좋아합니다
+                    <strong id="lastLiker-{{ post.id }}">Liked by {{ post.like_users.last }}</strong>
                     <span id="likeCount-{{ post.id }}" class="d-none"></span>
                   {% else %}
                     <span id="lastLiker-{{ post.id }}" class="d-none"></span><span id="likeCount-{{ post.id }}" class="d-none"></span>
@@ -155,15 +158,15 @@ likeButtonList.forEach(likeButton => {
         } else if (likeCount == 1){
           likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
           lastLiker = document.querySelector(`#lastLiker-${postId}`)
-          lastLiker.innerText = "{{ request.user }}" + '님이 좋아합니다'
+          lastLiker.innerText = 'Liked by ' + "{{ request.user }}"
           lastLiker.classList.remove('d-none')
         } else{
           lastLiker = document.querySelector(`#lastLiker-${postId}`)
-          lastLiker.innerText = "{{ request.user }}"
+          lastLiker.innerText = 'Liked by ' + "{{ request.user }}"
           lastLiker.classList.remove('d-none')
           likeCount = document.querySelector(`#likeCount-${postId}`)
           likeCount.classList.remove('d-none')
-          likeCount.innerText = (response.data.count - 1) + '명이 좋아합니다'
+          likeCount.innerText = ' and ' + (response.data.count - 1) + ' others'
         }
 
       })
@@ -180,19 +183,11 @@ const commentForms = document.querySelectorAll('.comment-form')
 commentForms.forEach(function(form) {
   form.addEventListener('submit', function(event) {
     event.preventDefault()
-    // console.log(event)
-    const data = new FormData(event.target) // 클래스로부터 인스턴스 만들기 - new 키워드
-    // FormData 검증
-    /*
-    for (const item of data.entries()) { // iterator 반환
-      console.log(item) // Form 태그를 통해 POST로 요청 보내면 csrf token과 comment가 전송됨
-    }
-     */
+    const data = new FormData(event.target)
     axios.post(event.target.action, data)
       .then(function(response) {
         const comment = response.data
         const commentList = document.querySelector(`#comment-list-${comment.postId}`)
-        // todo - UI 수정할 것
         const newComment = `<strong>${ comment.username }</strong>: ${ comment.comment }`
         commentList.insertAdjacentHTML('beforeEnd', newComment)
         event.target.reset()

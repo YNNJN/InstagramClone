@@ -49,6 +49,9 @@
               {% endif %}
             {% endif %}
           </a>
+          {% if user == post.user %}
+            <a class="dropdown-item text-danger" href="{% url 'posts:delete' post.id%}">Delete</a>
+          {% endif %}
           <a class="dropdown-item" href="{% url 'posts:detail' post.id %}">Detail</a>
           <a class="dropdown-item" href="">Cancel</a>
         </div>
@@ -63,19 +66,17 @@
     <div class="card-body">
       <div class="mt-3">
 
-        {% include 'posts/like.html' %}
         <div>
-          <a href="{% url 'posts:detail' post.id %}" class="d-inline text-decoration-none text-reset">
-            {% if post.like_users.count >= 2 %}
-              <strong id="lastLiker-{{ post.id }}">{{ post.like_users.last }}</strong>님 외
-              <span id="likeCount-{{ post.id }}">{{ post.like_users.count | sub:1 }} 명이 좋아합니다</span>
-            {% elif post.like_users.count == 1 %}
-              <strong id="lastLiker-{{ post.id }}">{{ post.like_users.last }}</strong>님이 좋아합니다
-              <span id="likeCount-{{ post.id }}" class="d-none"></span>
+          <div class="p-0">
+            {% if user in post.like_users.all %}
+              <i class="fas fa-heart like-button text-secondary" data-id="{{ post.id }}"></i>
+              <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></i></a>
             {% else %}
-              <span id="lastLiker-{{ post.id }}" class="d-none"></span><span id="likeCount-{{ post.id }}" class="d-none"></span>
+              <i class="far fa-heart like-button text-secondary" data-id="{{ post.id }}"></i>
+              <a href="{% url 'posts:detail' post.id %}" class="text-secondary ml-2"><i class="far fa-comment"></i></i></a>
             {% endif %}
-          </a>
+          </div>
+          <p id="likeCounts-{{ post.id }}">좋아요 {{ post.like_users.count }}개</p>
         </div>
 
         {% if post.comment_set.count > 0 %}
@@ -104,8 +105,8 @@
   {% endfor %}
 
 <script>
-const likeButtonList = document.querySelectorAll('.like-button')
-likeButtonList.forEach(likeButton => {
+const likeButtons = document.querySelectorAll('.like-button')
+likeButtons.forEach(likeButton => {
   likeButton.addEventListener('click', function(event) {
     const postId = event.target.dataset.id
 
@@ -113,36 +114,24 @@ likeButtonList.forEach(likeButton => {
     axios.get(`/posts/${postId}/like/`)
       .then(response => {
 
+        let likeCounts = response.data.count
         if (response.data.liked === true) {
           event.target.classList.remove('far')
           event.target.classList.add('fas')
+          likeCounts = document.querySelector(`#likeCounts-${postId}`)
+          likeCounts.innerText = '좋아요 ' + (response.data.count) + '개'
         } else {
           event.target.classList.remove('fas')
           event.target.classList.add('far')
-        }
-
-        let likeCount = response.data.count
-        if (likeCount == 0){
-          likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
-          lastLiker = document.querySelector(`#lastLiker-${postId}`).classList.add('d-none')
-        } else if (likeCount == 1){
-          likeCount = document.querySelector(`#likeCount-${postId}`).classList.add('d-none')
-          lastLiker = document.querySelector(`#lastLiker-${postId}`)
-          lastLiker.innerText = "{{ request.user }}" + '님이 좋아합니다'
-          lastLiker.classList.remove('d-none')
-        } else{
-          lastLiker = document.querySelector(`#lastLiker-${postId}`)
-          lastLiker.innerText = "{{ request.user }}"
-          lastLiker.classList.remove('d-none')
-          likeCount = document.querySelector(`#likeCount-${postId}`)
-          likeCount.classList.remove('d-none')
-          likeCount.innerText = (response.data.count - 1) + '명이 좋아합니다'
+          likeCounts = document.querySelector(`#likeCounts-${postId}`)
+          likeCounts.innerText = '좋아요 ' + (response.data.count) + '개'
         }
 
       })
       .catch(err => {
         console.log(err)
       })
+
     {% else %}
       alert('로그인하지 않은 사용자는 좋아요를 누를 수 없습니다')
     {% endif %}
