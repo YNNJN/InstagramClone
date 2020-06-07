@@ -26,6 +26,10 @@
     {% endblock %}
   </div>
 
+  {% if request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'signup'%}
+  {% else %}
+  {% endif %}
+
   {% bootstrap_javascript jquery='full' %}
 
 </body>
