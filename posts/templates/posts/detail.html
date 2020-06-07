@@ -10,12 +10,13 @@
 {% block body %}
 
 <div class="container py-5 w-75 px-1">
-    <div class="row no-gutters">
-        <div class="col-md-8">
-            <img src="{{ post.image.url }}" alt="" width="532" class="rounded-sm">
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <img src="{{ post.image.url }}" alt="" width="100%" class="rounded-sm">
         </div>
-        <div class="col-md-4 border bg-white rounded-sm">
-          <div class="card-body p-2 mt-1">
+        <div class="d-md-none d-sm-block m-2"></div>
+        <div class="col-sm-12 col-md-4 border bg-white rounded-sm">
+          <div class="card-body p-2 mt-1 justify-content-between">
             <h5 class="card-title d-inline">
               <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
                 <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-1" height="33" width="33">
@@ -23,35 +24,35 @@
               </a>
               {% if user != post.user %}
                 {% if user in user_info.followers.all %}
-                  • <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-danger mx-1" style="font-size: small;">Unfollow</a>
+                  <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-danger mx-1" style="font-size: small;">Unfollow</a>
                 {% else %}
-                  • <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-primary mx-1" style="font-size: small;">Follow</a>
+                  <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-primary mx-1" style="font-size: small;">Follow</a>
                 {% endif %}
               {% endif %}
-            </h5>
 
-            <div class="dropdown show d-inline float-right">
-              <a class="btn shadow-none dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-h"></i>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                <a class="dropdown-item" href="{% url 'accounts:follow' post.user.username %}">
-                  {% if user != post.user %}
-                    {% if user in user_info.followers.all %}
-                      <span class="text-danger">Unfollow</span>
-                    {% else %}
-                      <span class="text-primary">Follow</span>
-                    {% endif %}
-                  {% endif %}
+              <div class="dropdown show d-inline float-right d-sm-none d-md-block">
+                <a class="btn shadow-none dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h"></i>
                 </a>
-                {% if user == post.user %}
-                  <a class="dropdown-item text-danger" href="{% url 'posts:delete' post.id%}">Delete</a>
-                {% endif %}
-                <a class="dropdown-item" href="{% url 'posts:detail' post.id %}">Detail</a>
-                <a class="dropdown-item" href="">Cancel</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+  
+                  <a class="dropdown-item" href="{% url 'accounts:follow' post.user.username %}">
+                    {% if user != post.user %}
+                      {% if user in user_info.followers.all %}
+                        <span class="text-danger">Unfollow</span>
+                      {% else %}
+                        <span class="text-primary">Follow</span>
+                      {% endif %}
+                    {% endif %}
+                  </a>
+                  {% if user == post.user %}
+                    <a class="dropdown-item text-danger" href="{% url 'posts:delete' post.id%}">Delete</a>
+                  {% endif %}
+                  <a class="dropdown-item" href="{% url 'posts:detail' post.id %}">Detail</a>
+                  <a class="dropdown-item" href="">Cancel</a>
+                </div>
               </div>
-            </div>
+            </h5>
 
             <hr>
 
@@ -110,8 +111,6 @@
       </div>
   </div>
 
-
-
 <hr class="mb-5">
 
 <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
@@ -120,9 +119,9 @@
 
 <div class="row no-gutter mt-3">
   {% for post in post.user.post_set.all %}
-    <div class="col-4 d-flex align-items-center justify-content-around">
+    <div class="col-sm-12 col-md-4 d-flex align-items-center justify-content-around">
       <a href="{% url 'posts:detail' post.id %}">
-        <img src="{{ post.image.url }}" class="pb-4" width="250">
+        <img src="{{ post.image.url }}" class="pb-4" width="100%">
       </a>
     </div>
   {% empty %}
