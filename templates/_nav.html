@@ -1,29 +1,24 @@
 {% load gravatar %}
 
-<div class="sticky-top bg-white pt-1">
-
-  <div class="container">
-    <ul class="nav align-items-center justify-content-between">
-
-      <li class="nav-item mx-4" class="col-md-4">
-        <a class="navbar-brand" href="{% url 'posts:index' %}"><strong class="text-dark" style="font-size:22px">gramClone</strong></a>
-      </li>
-
-      <li class="nav-item">
-        <form action="{% url 'posts:search' %}" class="form-inline">
-          {% csrf_token %}
-          <input class="form-control mr-sm-2" type="search" placeholder="Search by hashtag" name="search">
-          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-        </form>
-      </li>
-
+<nav class="navbar navbar-expand-lg sticky-top bg-white pt-1">
+  <a class="navbar-brand mr-5 px-4" href="{% url 'posts:index' %}"><strong class="text-dark" style="font-size:22px">gramClone</strong></a>
+  <form action="{% url 'posts:search' %}" class="form-inline ml-5 px-5">
+    {% csrf_token %}
+    <input class="form-control mr-sm-2" type="search" placeholder="# Search by hashtag" name="search">
+    <button class="d-flex-inline btn border-0 my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+  </form>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-dark d-sm-none d-md-block"><i class="fas fa-bars"></i></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto mr-4">
       {% if user.is_authenticated %}
       <li class="nav-item">
       <div>
-        <a class="navbar-brand text-secondary mx-3" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
-        <a class="navbar-brand text-secondary mx-2" href="{% url 'posts:create' %}"><i class="far fa-compass fa-lg"></i></a>
-        <a class="nav-link dropdown-toggle text-dark d-inline" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:18px'>
-          <img src="{{ request.user.gravatar_url }}" class="rounded-circle" height="30" width="30">
+        <a class="navbar-brand text-secondary" href="{% url 'posts:index' %}"><i class="fas fa-home fa-lg"></i></a>
+        <a class="navbar-brand text-secondary" href="{% url 'posts:create' %}"><i class="far fa-compass fa-lg"></i></a>
+        <a class="nav-link dropdown-toggle text-dark d-inline p-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:18px'>
+          <img src="{{ request.user.gravatar_url }}" class="rounded-circle mb-1" height="26" width="26">
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'profile' user.username %}" class="text-decoration-none text-dark">Profile</a></button>
@@ -44,4 +39,4 @@
     </ul>
   </div>
   <hr class="my-2">
-</div>
+</nav>
