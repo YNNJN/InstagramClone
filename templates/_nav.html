@@ -20,7 +20,7 @@
         <a class="nav-link dropdown-toggle text-dark d-inline p-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='font-size:18px'>
           <img src="{{ request.user.gravatar_url }}" class="rounded-circle mb-1" height="26" width="26">
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'profile' user.username %}" class="text-decoration-none text-dark">Profile</a></button>
           <button class="dropdown-item"  style='font-size:16px;'><a href="{% url 'accounts:logout' %}" class="text-decoration-none text-secondary">Log-out</a></button>
         </div>

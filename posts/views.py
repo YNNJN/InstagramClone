@@ -149,5 +149,6 @@ def search(request):
     posts = Post.objects.filter(Q(content__contains=target))
     context = {
         'posts': posts,
+        'target': target,
     }
     return render(request, 'posts/index.html', context)

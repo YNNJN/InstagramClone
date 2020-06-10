@@ -5,16 +5,16 @@
 
 {% block body %}
 
-<div class="jumbotron bg-light pb-3">
+<div class="jumbotron bg-light p-0 pt-4">
 
   <div class="container">
-    {% if request.resolver_match.url_name == 'index' %}
-      <h2 class="display-4">#Instagram</h2>
-    {% else %}
-      <h2 class="display-4">#Search</h2>
+    {% if target %}
+      <h2 class="display-4 pt-5 mb-4">#{{ target }}</h2>
+      <p class="lead mb-5">post {{ posts | length }}</p>
     {% endif %}
-    <p class="lead pb-3">post {{ posts | length }}</p>
   </div>
+
+  <div class="border bg-white rounded-sm py-5 mb-5 w-75"></div>
 
   {% for post in posts %}
   <div class="card w-75 mb-5">
