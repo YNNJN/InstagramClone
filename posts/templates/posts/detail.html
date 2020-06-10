@@ -22,13 +22,13 @@
                 <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-1" height="33" width="33">
                 <p class="d-inline ml-3" style="font-size: 1.1rem">{{ post.user.username }}</p>
               </a>
-              {% if user != post.user %}
-                {% if user in user_info.followers.all %}
-                  <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-danger mx-1" style="font-size: small;">Unfollow</a>
-                {% else %}
-                  <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-primary mx-1" style="font-size: small;">Follow</a>
+              <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset ml-2" style="font-size: 0.9rem">
+                {% if request.user != post.user %}
+                  {% if request.user not in post.user.followers.all%}
+                    <span class="text-decoration-none text-primary mx-1">Follow</span>
+                  {% endif %}
                 {% endif %}
-              {% endif %}
+              </a>
 
               <div class="dropdown show d-inline float-right d-sm-none d-md-block">
                 <a class="btn shadow-none dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,11 +37,11 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
   
                   <a class="dropdown-item" href="{% url 'accounts:follow' post.user.username %}">
-                    {% if user != post.user %}
-                      {% if user in user_info.followers.all %}
-                        <span class="text-danger">Unfollow</span>
+                    {% if request.user != post.user %}
+                      {% if request.user not in post.user.followers.all %}
+                        <span class="text-decoration-none text-primary">Follow</span>
                       {% else %}
-                        <span class="text-primary">Follow</span>
+                        <span class="text-decoration-none text-danger">Unfollow</span>
                       {% endif %}
                     {% endif %}
                   </a>

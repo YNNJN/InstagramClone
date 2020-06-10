@@ -25,13 +25,13 @@
                 <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-0 mr-1" height="33" width="33">
                 <p class="d-inline mx-1" style="font-size: 1.1rem">{{ post.user.username }}</p>
               </a>
-              {% if user != post.user %}
-                {% if user in user_info.followers.all %}
-                  • <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-danger mx-1" style="font-size: small;">Unfollow</a>
-                {% else %}
-                  • <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-primary mx-1" style="font-size: small;">Follow</a>
+              <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset ml-2" style="font-size: 0.9rem">
+                {% if request.user != post.user %}
+                  {% if request.user not in post.user.followers.all%}
+                    <span class="text-decoration-none text-primary mx-1">Follow</span>
+                  {% endif %}
                 {% endif %}
-              {% endif %}
+              </a>
             </h5>
 
             <div class="dropdown show">
@@ -39,13 +39,12 @@
                 <i class="fas fa-ellipsis-h"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                <a class="dropdown-item text-danger" href="{% url 'accounts:follow' post.user.username %}">
-                  {% if user != post.user %}
-                    {% if user in user_info.followers.all %}
-                      Unfollow
+                <a class="dropdown-item" href="{% url 'accounts:follow' post.user.username %}">
+                  {% if request.user != post.user %}
+                    {% if request.user not in post.user.followers.all %}
+                      <span class="text-decoration-none text-primary">Follow</span>
                     {% else %}
-                      Follow
+                      <span class="text-decoration-none text-danger">Unfollow</span>
                     {% endif %}
                   {% endif %}
                 </a>
