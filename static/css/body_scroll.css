@@ -1,4 +1,4 @@
 .comment_section{
-    max-height: 40%;
+    max-height: 15vh;
     overflow: scroll;
 }

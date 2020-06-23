@@ -19,18 +19,18 @@
           <div class="card-body p-2 mt-1 justify-content-between">
             <h5 class="card-title d-inline">
               <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
-                <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-1" height="33" width="33">
+                <img src="{{ post.user.gravatar_url }}" class="rounded-circle border" height="33" width="33">
                 <p class="d-inline ml-3" style="font-size: 1.1rem">{{ post.user.username }}</p>
               </a>
-              <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset ml-2" style="font-size: 0.9rem">
+              <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset" style="font-size: 0.9rem">
                 {% if request.user != post.user %}
                   {% if request.user not in post.user.followers.all%}
-                    <span class="text-decoration-none text-primary mx-1">Follow</span>
+                    <span class="text-decoration-none text-primary">Follow</span>
                   {% endif %}
                 {% endif %}
               </a>
 
-              <div class="dropdown show d-inline float-right d-sm-none d-md-block">
+              <div class="dropdown show d-inline ml-auto d-inline">
                 <a class="btn shadow-none dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-ellipsis-h"></i>
                 </a>
@@ -64,7 +64,7 @@
                 {% for comment in post.comment_set.all %}
                   <p class="m-0">
                     <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
-                      <img src="{{ comment.user.gravatar_url}}" class="rounded-circle mr-2 my-1" height="33" width="33">
+                      <img src="{{ comment.user.gravatar_url}}" class="rounded-circle border mr-2 my-1" height="33" width="33">
                       <strong>{{ comment.user }}</strong>
                     </a>
                     : {{ comment.comment }}

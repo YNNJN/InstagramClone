@@ -10,5 +10,5 @@ def add_link(post):
 
     for tag in tags:
         content = content.replace(
-            f'{tag.name}', f'<a href="/posts/tags/{tag.id}/">{tag.name}</a>')
+            f'{tag.name}', f'<a href="/posts/tags/{tag.name}/">{tag.name}</a>')
     return content

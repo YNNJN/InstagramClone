@@ -22,7 +22,7 @@
           <div class="modal-header">
             <h5 class="modal-title mr-auto">
               <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
-                <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-0 mr-1" height="33" width="33">
+                <img src="{{ post.user.gravatar_url }}" class="rounded-circle border ml-0 mr-1" height="33" width="33">
                 <p class="d-inline mx-1" style="font-size: 1.1rem">{{ post.user.username }}</p>
               </a>
               <a href="{% url 'accounts:follow' post.user.username %}" class="text-decoration-none text-reset ml-2" style="font-size: 0.9rem">
@@ -64,7 +64,7 @@
               {% for comment in post.comment_set.all %}
                 <p class="m-0">
                   <a href="{% url 'profile' comment.user.username %}" class="text-dark text-decoration-none">
-                    <img src="{{ comment.user.gravatar_url}}" class="rounded-circle mr-2 my-1" height="33" width="33">
+                    <img src="{{ comment.user.gravatar_url}}" class="rounded-circle border mr-2 my-1" height="33" width="33">
                     <strong>{{ comment.user }}</strong>
                   </a>
                   : {{ comment.comment }}
