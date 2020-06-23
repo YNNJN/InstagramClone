@@ -1,0 +1,38 @@
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0;
+  }
+
+  .card {
+    width: 100%;
+    margin: auto;
+  }
+  .empty_box {
+    width: 100%;
+    margin: auto;
+  }
+
+  .card-body {
+    padding: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .empty_box {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .card {
+    width: 75%;
+  }
+
+  .empty_box {
+    width: 75%;
+  }
+
+  .hidden_search {
+    display: none;
+  }
+}

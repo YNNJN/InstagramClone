@@ -6,21 +6,21 @@
 
 <link rel="stylesheet" href="{% static 'css/modal_position.css' %}">
 <link rel="stylesheet" href="{% static 'css/body_scroll.css' %}">
+<link rel="stylesheet" media="screen and (max-width: 768px)" href="{% static 'css/modal_media_queries.css' %}" />
+<link rel="stylesheet" media="screen and (min-width: 769px)" href="{% static 'css/modal_media_queries.css' %}" />
 
 <div class="modal fade bd-example-modal-lg" id="modal{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
       <div class="row no-gutters">
-        <div class="col-md-8 p-0 mr-2">
-          <div>
-            <img src="{{ post.image.url }}" alt="" width="500">
-          </div>
+        <div class="col-md-8 p-0">
+          <img src="{{ post.image.url }}" class="image_section" width="100%" alt="">
         </div>
 
-        <div class="col-md-4 ml-1">
+        <div class="col-md-4 ml-1 text_section">
           <div class="modal-header">
-            <h5 class="modal-title">
+            <h5 class="modal-title mr-auto">
               <a href="{% url 'profile' post.user.username %}" class="text-dark text-decoration-none text-reset">
                 <img src="{{ post.user.gravatar_url }}" class="rounded-circle ml-0 mr-1" height="33" width="33">
                 <p class="d-inline mx-1" style="font-size: 1.1rem">{{ post.user.username }}</p>
