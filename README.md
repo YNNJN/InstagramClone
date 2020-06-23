@@ -69,33 +69,33 @@
 
 > Index
 
-<img src="./images/스크린샷 2020-06-24 오전 2.01.46.png" alt="스크린샷 2020-06-24 오전 2.01.46" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 2 01 46" src="https://user-images.githubusercontent.com/60057425/85442780-81ddb280-b5cb-11ea-9141-8f1ac22be002.png">
 
 > Post modal
 
-<img src="./images/스크린샷 2020-06-24 오전 2.00.48-2935419.png" alt="스크린샷 2020-06-24 오전 2.00.48" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 2 00 48" src="https://user-images.githubusercontent.com/60057425/85442777-80ac8580-b5cb-11ea-9431-77a09f95f0b8.png">
 
 > Post detail
 
-<img src="./images/스크린샷 2020-06-24 오전 1.57.08.png" alt="스크린샷 2020-06-24 오전 1.57.08" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 1 57 08" src="https://user-images.githubusercontent.com/60057425/85442764-7d18fe80-b5cb-11ea-8d3e-a06f4e50cbc5.png">
 
 > Profile
 
-<img src="./images/스크린샷 2020-06-24 오전 1.55.34.png" alt="스크린샷 2020-06-24 오전 1.55.34" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 1 55 34" src="https://user-images.githubusercontent.com/60057425/85442720-74282d00-b5cb-11ea-8810-14ad4a664e59.png">
 
 > Following/Followers
 
-<img src="./images/스크린샷 2020-06-24 오전 1.56.51.png" alt="스크린샷 2020-06-24 오전 1.56.51" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 1 56 51" src="https://user-images.githubusercontent.com/60057425/85442758-7b4f3b00-b5cb-11ea-80fe-3e016924bbc1.png">
 
 > Likers
 
-<img src="./images/스크린샷 2020-06-24 오전 1.59.54.png" alt="스크린샷 2020-06-24 오전 1.59.54" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 1 59 54" src="https://user-images.githubusercontent.com/60057425/85442773-7f7b5880-b5cb-11ea-8a7a-8273b95669ec.png">
 
 
 
 > Search by hash tag
 
-<img src="./images/스크린샷 2020-06-24 오전 2.02.00.png" alt="스크린샷 2020-06-24 오전 2.02.00" style="zoom:20%;" />
+<img width="1680" alt="스크린샷 2020-06-24 오전 2 02 00" src="https://user-images.githubusercontent.com/60057425/85442782-830edf80-b5cb-11ea-85ff-0170dfb653fb.png">
 
 
 
@@ -108,12 +108,12 @@
 
 > Index (iPhone X - iPad - iPad Pro 순서)
 
-![반응형.001](./images/반응형.001-2935666.png)
+![반응형 001](https://user-images.githubusercontent.com/60057425/85442798-886c2a00-b5cb-11ea-8506-b0dbabc093a6.png)
 
 > Post modal (iPhone X - iPad - iPad Pro 순서)
 
-![반응형.002](./images/반응형.002-2935691.png)
+![반응형 002](https://user-images.githubusercontent.com/60057425/85442814-8c984780-b5cb-11ea-8517-ed260a0dc181.png)
 
 > Profile (iPhone X - iPad - iPad Pro 순서)
 
-![반응형.003](./images/반응형.003-2935709.png)
+![반응형 003](https://user-images.githubusercontent.com/60057425/85442819-8d30de00-b5cb-11ea-9f51-93fa42a9fe98.png)
